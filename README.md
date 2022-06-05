@@ -4,15 +4,18 @@
 
 Project, template and page manager for grapesjs. This version makes use of the [`PageManager`](https://github.com/artf/grapesjs/pull/3411) and has different plugin and package name, the previous version which doesn't make use of the `PageManager` can be found [here](https://github.com/Ju99ernaut/grapesjs-template-manager/tree/template-manager).
 
-| Project | Project settings |
-|---------|------------------|
+
+| Project                                                                                                                    | Project settings                                                                                                           |
+| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | ![Screenshot (224)](https://user-images.githubusercontent.com/48953676/130074718-0e50d99a-d004-41e0-890c-66f05175e45c.png) | ![Screenshot (226)](https://user-images.githubusercontent.com/48953676/130074800-075eab50-3059-493d-afa7-0b9f8af9fdf6.png) |
 
-| Pages | Page settings |
-|-------|---------------|
-|  ![Screenshot (225)](https://user-images.githubusercontent.com/48953676/130074843-81c120f9-37a0-4ee1-b8d4-019a16de6a46.png) | ![Screenshot (227)](https://user-images.githubusercontent.com/48953676/130074992-12a1774a-0a85-4e4f-8a14-1c95e0a7a7b6.png) |
+
+| Pages                                                                                                                      | Page settings                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| ![Screenshot (225)](https://user-images.githubusercontent.com/48953676/130074843-81c120f9-37a0-4ee1-b8d4-019a16de6a46.png) | ![Screenshot (227)](https://user-images.githubusercontent.com/48953676/130074992-12a1774a-0a85-4e4f-8a14-1c95e0a7a7b6.png) |
 
 ### HTML
+
 ```html
 <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet">
 <link href="https://unpkg.com/grapesjs-project-manager/dist/grapesjs-project-manager.min.css" rel="stylesheet">
@@ -23,6 +26,7 @@ Project, template and page manager for grapesjs. This version makes use of the [
 ```
 
 ### JS
+
 ```js
 const editor = grapesjs.init({
   container: '#gjs',
@@ -58,6 +62,7 @@ pn.addButton('views', {
 ```
 
 ### CSS
+
 ```css
 body, html {
   margin: 0;
@@ -65,49 +70,48 @@ body, html {
 }
 ```
 
-
 ## Summary
 
 * Plugin name: `grapesjs-project-manager`
 * Commands
-    * `open-templates`
-    * `open-pages`
-    * `open-settings`
-    * `get-uuidv4`
-    * `take-screenshot`
-    * `save-as-template`
-    * `delete-template`
+  * `open-templates`
+  * `open-pages`
+  * `open-settings`
+  * `get-uuidv4`
+  * `take-screenshot`
+  * `save-as-template`
+  * `delete-template`
 * Storages
-    * `indexeddb`
-    * `firestore`
-    * `rest-api`
+  * `indexeddb`
+  * `firestore`
+  * `rest-api`
 
 ## Options
 
-| Option | Description | Default |
-|-|-|-
-| `dbName` | Database name | `gjs` |
-| `objectStoreName` | Collection name | `templates` |
-| `loadFirst` | Load first template in storage | `true` |
-| `customLoad` | Use custom onload function(skips default onload steps), `(ed, cs) => ...` | `false` |
-| `components` | Default components since `fromElement` is not supported | `undefined` |
-| `style` | Default style since `fromElement` is not supported | `undefined` |
-| `indexeddbVersion` | IndexedDB schema version | `5` |
-| `onDelete` | On successful template deletion | `Function(Check source)` |
-| `onDeleteError` | On error template deletion | `Function(Check source)` |
-| `onScreenShotError` | On error capturing screenshot | `Function(Check source)` |
-| `quality` | Generated screenshot quality | `.01` |
-| `mdlTitle` | Modal title | `Project Manager` |
-| `apiKey` | `Firebase` API key | ` ` |
-| `authDomain` | `Firebase` Auth domain | ` ` |
-| `projectId` | `Cloud Firestore` project ID | ` ` |
-| `firebaseConfig` | Extra firebase app credentials | `{}` |
-| `enableOffline` | Enable `Firestore` support for offline data persistence | `true` |
-| `settings` | `Firestore` database settings | `{ timestampsInSnapshots: true }` |
-| `uuidInPath` | Add uuid as path parameter on store for `rest-api`(useful for validation) | `true` |
-| `size` | Display estimated project sizes | `true` |
-| `currentPageOpen` | Send feedback when open is clicked on current page | `check source` |
-| `ì18n` | I18n object containing language [more info](https://grapesjs.com/docs/modules/I18n.html#configuration) | `{}` |
+| Option              | Description                                                                                           | Default                           |
+| --------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `dbName`            | Database name                                                                                         | `gjs`                             |
+| `objectStoreName`   | Collection name                                                                                       | `templates`                       |
+| `loadFirst`         | Load first template in storage                                                                        | `true`                            |
+| `customLoad`        | Use custom onload function(skips default onload steps),`(ed, cs) => ...`                              | `false`                           |
+| `components`        | Default components since`fromElement` is not supported                                                | `undefined`                       |
+| `style`             | Default style since`fromElement` is not supported                                                     | `undefined`                       |
+| `indexeddbVersion`  | IndexedDB schema version                                                                              | `5`                               |
+| `onDelete`          | On successful template deletion                                                                       | `Function(Check source)`          |
+| `onDeleteError`     | On error template deletion                                                                            | `Function(Check source)`          |
+| `onScreenShotError` | On error capturing screenshot                                                                         | `Function(Check source)`          |
+| `quality`           | Generated screenshot quality                                                                          | `.01`                             |
+| `mdlTitle`          | Modal title                                                                                           | `Project Manager`                 |
+| `apiKey`            | `Firebase` API key                                                                                    | ``                                |
+| `authDomain`        | `Firebase` Auth domain                                                                                | ``                                |
+| `projectId`         | `Cloud Firestore` project ID                                                                          | ``                                |
+| `firebaseConfig`    | Extra firebase app credentials                                                                        | `{}`                              |
+| `enableOffline`     | Enable`Firestore` support for offline data persistence                                                | `true`                            |
+| `settings`          | `Firestore` database settings                                                                         | `{ timestampsInSnapshots: true }` |
+| `uuidInPath`        | Add uuid as path parameter on store for`rest-api`(useful for validation)                              | `true`                            |
+| `size`              | Display estimated project sizes                                                                       | `true`                            |
+| `currentPageOpen`   | Send feedback when open is clicked on current page                                                    | `check source`                    |
+| `ì18n`             | I18n object containing language[more info](https://grapesjs.com/docs/modules/I18n.html#configuration) | `{}`                              |
 
 * Setting `loadFirst` to `false` prevents overwritting the contents of the editor with the contents of the first template in storage.
 * Only use options for `Firebase` when using `Cloud Firestore` storage.
@@ -201,6 +205,7 @@ The backend schema can be something like:
 `GET` `https://api/templates/` load all templates
 
 Returns
+
 ```json
 [
     {
@@ -220,6 +225,7 @@ Returns
 `POST` `https://api/templates/{idx: UUIDv4}` store template
 
 Expects
+
 ```json
 {
   "id": "UUIDv4",
@@ -237,6 +243,7 @@ Expects
 `GET` `https://api/templates/{idx: UUIDv4}` load template
 
 Returns
+
 ```json
 {
   "id": "UUIDv4",
@@ -254,6 +261,7 @@ Returns
 `DELETE` `https://api/templates/{idx: UUIDv4}` delete template
 
 Which would have the following setup:
+
 ```js
 window.editor = grapesjs.init({
   container: '#gjs',
@@ -277,17 +285,16 @@ All the fields are generated from the editor so you just need to setup your API 
 ## Download
 
 * CDN
-    * `https://unpkg.com/grapesjs-project-manager`
+  * `https://unpkg.com/grapesjs-project-manager`
 * NPM
-    * `npm i grapesjs-project-manager`
+  * `npm i grapesjs-project-manager`
 * GIT
-    * `git clone https://github.com/Ju99ernaut/grapesjs-template-manager.git`
-
-
+  * `git clone https://github.com/Ju99ernaut/grapesjs-template-manager.git`
 
 ## Usage
 
 Directly in the browser
+
 ```html
 <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet"/>
 <link href="https://unpkg.com/grapesjs-project-manager/dist/grapesjs-project-manager.min.css" rel="stylesheet">
@@ -314,6 +321,7 @@ Directly in the browser
 ```
 
 Modern javascript
+
 ```js
 import grapesjs from 'grapesjs';
 import plugin from 'grapesjs-project-manager';
@@ -377,7 +385,6 @@ Build the source
 ```sh
 $ npm run build
 ```
-
 
 ## License
 

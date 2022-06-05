@@ -99,6 +99,12 @@ export default (editor, opts = {}) => {
     // Load page with index zero
     editor.on('load', () => {
         const cs = editor.Storage.getCurrentStorage();
+        
+        if (!cs?.loadAll?.call ){
+            console.error('Storage does not have loadAll method');
+            return
+        }
+        
         const { customLoad } = options;
         customLoad && typeof customLoad === 'function' && customLoad(editor, cs);
         !customLoad && cs.loadAll(res => {
