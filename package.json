@@ -11,8 +11,10 @@
         "lint": "eslint source",
         "build": "webpack --env production",
         "build-dev": "npm run && webpack --env production",
-        "start": "webpack-cli serve --mode development --progress",
-        "postinstall": "npm-install-peers"
+        "start": "webpack-cli serve --static dist --mode development --progress",
+        "postinstall": "npm-install-peers",
+        "build:css": "sass source/styles.scss dist/@schukai/grapesjs-project-manager.min.css --style compressed",
+        "watch:scss": "sass --watch source/styles.scss dist/@schukai/grapesjs-project-manager.min.css --style compressed"
     },
     "keywords": [
         "grapesjs",

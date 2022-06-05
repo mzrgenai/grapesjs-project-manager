@@ -159,10 +159,11 @@ SCRIPT_PATH          :=   $(THIS_DIR)scripts/
 
 PACKAGE_DIR                                := $(THIS_DIR)
 PACKAGE_DIST_DIR                           := $(THIS_DIR)dist/
-PACKAGE_DIST_FILE                          := $(PACKAGE_DIST_DIR)@schukai/grapesjs-blocks-bootstrap5.min.js
+PACKAGE_DIST_JS_FILE                       := $(PACKAGE_DIST_DIR)@schukai/grapesjs-project-manager.min.js
+PACKAGE_DIST_CSS_FILE                      := $(PACKAGE_DIST_DIR)@schukai/grapesjs-project-manager.min.css
 PACKAGE_SOURCE_DIR                         := $(THIS_DIR)source/
-PACKAGE_SOURCE_FILES                       := $(shell find $(PACKAGE_SOURCE_DIR) -name '*.js')
-PACKAGE_RELATIVE_SOURCE_FILES              := $(shell find $(PACKAGE_SOURCE_DIR) -name '*.js' -exec realpath --relative-to $(THIS_DIR) {} \;   )
+PACKAGE_SOURCE_SCSS_FILES                  := $(shell find $(PACKAGE_SOURCE_DIR) -name '*.scss')
+PACKAGE_SOURCE_JS_FILES                    := $(shell find $(PACKAGE_SOURCE_DIR) -name '*.js')
 PACKAGE_VERSION                            := $(shell jq -r ".version" $(PACKAGE_DIR)package.json)
 
 #############################################################################################
@@ -249,12 +250,15 @@ $(NODE_MODULES_DIR): $(THIS_DIR)package.json
 clean:
 	$(QUIET) $(RM) --recursive $(THIS_DIR)dist/
 
-$(PACKAGE_DIST_FILE): $(PACKAGE_SOURCE_FILES)
+$(PACKAGE_DIST_CSS_FILE): $(PACKAGE_SOURCE_SCSS_FILES)
+	$(QUIET) $(NPM) run build:css
+
+$(PACKAGE_DIST_JS_FILE): $(PACKAGE_SOURCE_JS_FILES)
 	$(QUIET) $(NPM) run build
 
 .PHONY: build
 ## create all packages
-build: $(NODE_MODULES_DIR) $(PACKAGE_DIST_FILE)
+build: $(NODE_MODULES_DIR) $(PACKAGE_DIST_JS_FILE) $(PACKAGE_DIST_CSS_FILE)
 
 .PHONY: dev
 ## start dev server
