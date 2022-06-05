@@ -289,9 +289,7 @@ release:
 npm-publish: build $(PACKAGE_DIR).npmignore
 	$(ECHOMARKER) "publish"
 	$(QUIET) $(CD) $(THIS_DIR) ; \
-		$(NPM) pack ; \
+		$(NPM) publish --access public ; \
 		$(CD) -
 
 
-
-# $(NPM) publish --access public ; \
