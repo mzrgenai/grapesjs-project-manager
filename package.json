@@ -1,0 +1,30 @@
+{
+    "name": "@schukai/grapesjs-project-manager",
+    "version": "1.0.0",
+    "description": "Grapesjs Project Manager",
+    "main": "dist/@schukai/grapesjs-project-manager.min.js",
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.schukai.com/oss/minerva/grapesjs-project-manager.git"
+    },
+    "scripts": {
+        "start": "grapesjs-cli serve --entry=source/index.js",
+        "build": "grapesjs-cli build",
+        "build:css": "sass source/styles.scss dist/grapesjs-project-manager.min.css --style compressed",
+        "watch:scss": "sass --watch source/styles.scss dist/grapesjs-project-manager.min.css --style compressed",
+        "bump": "npm version patch -m 'Bump v%s'"
+    },
+    "keywords": [
+        "grapesjs",
+        "plugin"
+    ],
+    "devDependencies": {
+        "grapesjs-cli": "^1.0.14",
+        "sass": "^1.32.8"
+    },
+    "author": "schukai GmbH, Brendon Ngirazi",
+    "license": "AGPL 3.0",
+    "dependencies": {
+        "dom-to-image": "^2.6.0"
+    }
+}

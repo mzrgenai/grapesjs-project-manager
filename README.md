@@ -1,92 +1,387 @@
-# grapesjs-project-manager
+# Grapesjs Project Manager
 
+> Requires GrapesJS v0.17.3 or higher.
 
+Project, template and page manager for grapesjs. This version makes use of the [`PageManager`](https://github.com/artf/grapesjs/pull/3411) and has different plugin and package name, the previous version which doesn't make use of the `PageManager` can be found [here](https://github.com/Ju99ernaut/grapesjs-template-manager/tree/template-manager).
 
-## Getting started
+| Project | Project settings |
+|---------|------------------|
+| ![Screenshot (224)](https://user-images.githubusercontent.com/48953676/130074718-0e50d99a-d004-41e0-890c-66f05175e45c.png) | ![Screenshot (226)](https://user-images.githubusercontent.com/48953676/130074800-075eab50-3059-493d-afa7-0b9f8af9fdf6.png) |
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+| Pages | Page settings |
+|-------|---------------|
+|  ![Screenshot (225)](https://user-images.githubusercontent.com/48953676/130074843-81c120f9-37a0-4ee1-b8d4-019a16de6a46.png) | ![Screenshot (227)](https://user-images.githubusercontent.com/48953676/130074992-12a1774a-0a85-4e4f-8a14-1c95e0a7a7b6.png) |
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### HTML
+```html
+<link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet">
+<link href="https://unpkg.com/grapesjs-project-manager/dist/grapesjs-project-manager.min.css" rel="stylesheet">
+<script src="https://unpkg.com/grapesjs"></script>
+<script src="https://unpkg.com/grapesjs-project-manager"></script>
 
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+<div id="gjs"></div>
 ```
-cd existing_repo
-git remote add origin https://gitlab.schukai.com/oss/minerva/grapesjs-project-manager.git
-git branch -M master
-git push -uf origin master
+
+### JS
+```js
+const editor = grapesjs.init({
+  container: '#gjs',
+  height: '100%',
+  fromElement: true,
+  pageManager: true, // This should be set to true
+  storageManager:  {
+    type: 'indexeddb',
+    // ...
+  },
+  plugins: ['grapesjs-project-manager'],
+});
+
+// Running commands from panels
+const pn = editor.Panels;
+pn.addButton('options', {
+    id: 'open-templates',
+    className: 'fa fa-folder-o',
+    attributes: {
+        title: 'Open projects and templates'
+    },
+    command: 'open-templates', //Open modal 
+});
+pn.addButton('views', {
+    id: 'open-pages',
+    className: 'fa fa-file-o',
+    attributes: {
+        title: 'Take Screenshot'
+    },
+    command: 'open-pages',
+    togglable: false
+});
 ```
 
-## Integrate with your tools
+### CSS
+```css
+body, html {
+  margin: 0;
+  height: 100%;
+}
+```
 
-- [ ] [Set up project integrations](https://gitlab.schukai.com/oss/minerva/grapesjs-project-manager/-/settings/integrations)
 
-## Collaborate with your team
+## Summary
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+* Plugin name: `grapesjs-project-manager`
+* Commands
+    * `open-templates`
+    * `open-pages`
+    * `open-settings`
+    * `get-uuidv4`
+    * `take-screenshot`
+    * `save-as-template`
+    * `delete-template`
+* Storages
+    * `indexeddb`
+    * `firestore`
+    * `rest-api`
 
-## Test and Deploy
+## Options
 
-Use the built-in continuous integration in GitLab.
+| Option | Description | Default |
+|-|-|-
+| `dbName` | Database name | `gjs` |
+| `objectStoreName` | Collection name | `templates` |
+| `loadFirst` | Load first template in storage | `true` |
+| `customLoad` | Use custom onload function(skips default onload steps), `(ed, cs) => ...` | `false` |
+| `components` | Default components since `fromElement` is not supported | `undefined` |
+| `style` | Default style since `fromElement` is not supported | `undefined` |
+| `indexeddbVersion` | IndexedDB schema version | `5` |
+| `onDelete` | On successful template deletion | `Function(Check source)` |
+| `onDeleteError` | On error template deletion | `Function(Check source)` |
+| `onScreenShotError` | On error capturing screenshot | `Function(Check source)` |
+| `quality` | Generated screenshot quality | `.01` |
+| `mdlTitle` | Modal title | `Project Manager` |
+| `apiKey` | `Firebase` API key | ` ` |
+| `authDomain` | `Firebase` Auth domain | ` ` |
+| `projectId` | `Cloud Firestore` project ID | ` ` |
+| `firebaseConfig` | Extra firebase app credentials | `{}` |
+| `enableOffline` | Enable `Firestore` support for offline data persistence | `true` |
+| `settings` | `Firestore` database settings | `{ timestampsInSnapshots: true }` |
+| `uuidInPath` | Add uuid as path parameter on store for `rest-api`(useful for validation) | `true` |
+| `size` | Display estimated project sizes | `true` |
+| `currentPageOpen` | Send feedback when open is clicked on current page | `check source` |
+| `ì18n` | I18n object containing language [more info](https://grapesjs.com/docs/modules/I18n.html#configuration) | `{}` |
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+* Setting `loadFirst` to `false` prevents overwritting the contents of the editor with the contents of the first template in storage.
+* Only use options for `Firebase` when using `Cloud Firestore` storage.
+* `dbName` and `indexeddbVersion` only apply to `indexddb` storage.
+* `objectStoreName` acts as collection name for both `firestore` and ` indexeddb`.
+* When `uuidInPath` is set to `false` the store request will be `http://endpoint/store/` instead of `http://endpoint/store/{uuid}`
 
-***
+## Local/IndexedDB
 
-# Editing this README
+```js
+window.editor = grapesjs.init({
+  container: '#gjs',
+  // ...
+  pageManager: true,
+  storageManager:  {
+    type: 'indexeddb'
+  },
+  plugins: ['grapesjs-project-manager'],
+  pluginsOpts: {
+    'grapesjs-project-manager': { /* Options */ }
+  }
+});
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## Firestore
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+> Tested on firebase v8+. Firebase v9+ not yet supported.
 
-## Name
-Choose a self-explaining name for your project.
+Configure firestore access rules for your app.
+Add libraries to `head` of document:
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+```html
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+Add credentials:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+```js
+window.editor = grapesjs.init({
+  container: '#gjs',
+  // ...
+  pageManager: true,
+  storageManager:  {
+    type: 'firestore'
+  },
+  plugins: ['grapesjs-project-manager'],
+  pluginsOpts: {
+    'grapesjs-project-manager': { 
+      // Firebase API key
+      apiKey: 'FIREBASE_API_KEY',
+      // Firebase Auth domain
+      authDomain: 'app-id-00a00.firebaseapp.com',
+      // Cloud Firestore project ID
+      projectId: 'app-id-00a00',
+    }
+  }
+});
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+## Remote/REST-API
+
+Example backend https://github.com/Ju99ernaut/gjs-api
+
+```js
+window.editor = grapesjs.init({
+  container: '#gjs',
+  // ...
+  pageManager: true,
+  storageManager:  {
+    type: 'rest-api',
+    // the URIs below can be the same depending on your API design 
+    urlStore: 'https://endpoint/store/',// POST
+    urlLoad: 'https://endpoint/load/',// GET
+    urlDelete: 'https://endpoint/delete/',// DELETE
+    params: { _some_token: '...' },
+    headers: { Authorization: 'Basic ...' }
+  },
+  plugins: ['grapesjs-project-manager'],
+  pluginsOpts: {
+    'grapesjs-project-manager': { /* options */ }
+  }
+});
+```
+
+The backend schema can be something like:
+
+`GET` `https://api/templates/` load all templates
+
+Returns
+```json
+[
+    {
+      "id": "UUIDv4",
+      "name": "Page name",
+      "template": false,
+      "thumbnail": "",
+      "description": "No description",
+      "gjs-assets": "[]",
+      "gjs-pages": "[]",
+      "gjs-styles": "[]",
+      "updated_at": ""
+    }
+]
+```
+
+`POST` `https://api/templates/{idx: UUIDv4}` store template
+
+Expects
+```json
+{
+  "id": "UUIDv4",
+  "name": "Page name",
+  "template": false,
+  "thumbnail": "",
+  "description": "No description",
+  "gjs-assets": "[]",
+  "gjs-pages": "[]",
+  "gjs-styles": "[]",
+  "updated_at": ""
+}
+```
+
+`GET` `https://api/templates/{idx: UUIDv4}` load template
+
+Returns
+```json
+{
+  "id": "UUIDv4",
+  "name": "Page name",
+  "template": false,
+  "thumbnail": "",
+  "description": "No description",
+  "gjs-assets": "[]",
+  "gjs-pages": "[]",
+  "gjs-styles": "[]",
+  "updated_at": ""
+}
+```
+
+`DELETE` `https://api/templates/{idx: UUIDv4}` delete template
+
+Which would have the following setup:
+```js
+window.editor = grapesjs.init({
+  container: '#gjs',
+  // ...
+  storageManager:  {
+    type: 'rest-api',
+    // the URIs below can be the same depending on your API design 
+    urlStore: 'https://api/templates/',// POST
+    urlLoad: 'https://api/templates/',// GET
+    urlDelete: 'https://api/templates/',// DELETE
+  },
+  plugins: ['grapesjs-template-manager'],
+  pluginsOpts: {
+    'grapesjs-template-manager': { /* options */ }
+  }
+});
+```
+
+All the fields are generated from the editor so you just need to setup your API to receive and return data in that format. I'd recommend you check the network tab so you get a more accurate format for the payloads.
+
+## Download
+
+* CDN
+    * `https://unpkg.com/grapesjs-project-manager`
+* NPM
+    * `npm i grapesjs-project-manager`
+* GIT
+    * `git clone https://github.com/Ju99ernaut/grapesjs-template-manager.git`
+
+
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Directly in the browser
+```html
+<link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet"/>
+<link href="https://unpkg.com/grapesjs-project-manager/dist/grapesjs-project-manager.min.css" rel="stylesheet">
+<script src="https://unpkg.com/grapesjs"></script>
+<script src="path/to/grapesjs-project-manager.min.js"></script>
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+<div id="gjs"></div>
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+<script type="text/javascript">
+  var editor = grapesjs.init({
+      container: '#gjs',
+      // ...
+      pageManager: true,
+      storageManager:  {
+        type: 'indexeddb',
+        // ...
+      },
+      plugins: ['grapesjs-project-manager'],
+      pluginsOpts: {
+        'grapesjs-project-manager': { /* options */ }
+      }
+  });
+</script>
+```
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Modern javascript
+```js
+import grapesjs from 'grapesjs';
+import plugin from 'grapesjs-project-manager';
+import 'grapesjs/dist/css/grapes.min.css';
+import 'grapesjs-project-manager/dist/grapesjs-project-manager.min.css';
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+const editor = grapesjs.init({
+  container : '#gjs',
+  // ...
+  pageManager: true,
+  storageManager:  {
+    type: 'indexeddb',
+    // ...
+  },
+  plugins: [plugin],
+  pluginsOpts: {
+    [plugin]: { /* options */ }
+  }
+  // or
+  plugins: [
+    editor => plugin(editor, { /* options */ }),
+  ],
+});
+```
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+## Development
+
+Clone the repository
+
+```sh
+$ git clone https://github.com/Ju99ernaut/grapesjs-template-manager.git
+$ cd grapesjs-template-manager
+```
+
+Install dependencies
+
+```sh
+$ npm i
+```
+
+Build css or watch scss
+
+```sh
+$ npm run build:css
+```
+
+`OR`
+
+```
+$ npm run watch:scss
+```
+
+Start the dev server
+
+```sh
+$ npm start
+```
+
+Build the source
+
+```sh
+$ npm run build
+```
+
 
 ## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+[AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.de.html)
+
+This is a fork from [github.com/Ju99ernaut/grapesjs-template-manager](https://github.com/Ju99ernaut/grapesjs-template-manager)
+licensed under the MIT License by Brendon Ngirazi.
